@@ -66,7 +66,10 @@ function checkWin() {
             turnDiv.textContent = 'YOU WIN!';
             return true;
         }
-        return false;
+    }
+    if (!board.includes(null)) {
+        turnDiv.textContent = 'It\'s a Draw!';
+        return true;
     }
 
 }
