@@ -71,5 +71,5 @@ function checkWin() {
         turnDiv.textContent = 'It\'s a Draw!';
         return true;
     }
-
+    return false;
 }
