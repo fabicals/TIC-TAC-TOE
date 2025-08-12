@@ -66,7 +66,7 @@ function checkWin() {
             turnDiv.textContent = 'YOU WIN!';
             return true;
         }
+        return false;
     }
-    return false;
 
 }
