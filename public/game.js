@@ -55,16 +55,18 @@ function checkWin() {
     [2,4,6]
   ];
 
-  for (let i = 0; i < wins.length; i++) {
-    const [a, b, c] = wins[i]
+    for (let i = 0; i < wins.length; i++) {
+    const [a, b, c] = wins[i];
 
-    if (
-        board[a] !== null &&
-        board[a] == board[b] &&
-        board[a] == board[c]
-    )
-    turnDiv.textContent = 'YOU WIN!'
-    return true;
-  }
+        if (
+            board[a] !== null &&
+            board[a] === board[b] &&
+            board[a] === board[c]
+        ) {
+            turnDiv.textContent = 'YOU WIN!';
+            return true;
+        }
+    }
+    return false;
 
 }
