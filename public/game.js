@@ -3,11 +3,24 @@ let playerSymbol = null;
 let board = Array(9).fill(null);
 let currentTurn = "X";
 let gameOver = false;
+let bothConnected = false;
+
+
+socket.on('waiting-for-players', () => {
+    console.log('Received waiting-for-players event');
+    document.getElementById('turn-info').textContent = 'Waiting for another player to join...';
+});
+
+socket.on('both-players-connected', () => {
+    bothConnected = true;
+    document.getElementById('turn-info').textContent = 'Both players connected. Player X starts.'; 
+});
+
 
 socket.on('player-assigned', (symbol) => {
-    playerSymbol = symbol;
-    document.getElementById('player-info').textContent = `You are Player ${symbol}`;
-    updateTurnInfo();
+       playerSymbol = symbol;
+       document.getElementById('player-info').textContent = `You are Player ${symbol}`;
+       updateTurnInfo(); 
 });
 
 socket.on('room-full', () => {
@@ -30,7 +43,7 @@ document.querySelectorAll('.cell').forEach((cell, index) => {
             gameEnd();
         }
 
-        if (board[index] === null && playerSymbol === currentTurn) {
+        if (board[index] === null && playerSymbol === currentTurn && bothConnected) {
             board[index] = playerSymbol;
             cell.textContent = playerSymbol;
             socket.emit('move', {index, symbol: playerSymbol});
@@ -62,7 +75,7 @@ socket.on('game-over', ({result, winner}) => {
 
 function updateTurnInfo() {
     const turnDiv = document.getElementById("turn-info");
-    if (!gameOver) {
+    if (!gameOver && bothConnected) {
         if (playerSymbol === currentTurn) {
           turnDiv.textContent = "YOUR TURN";
         } else {

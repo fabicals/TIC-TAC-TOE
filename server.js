@@ -10,6 +10,7 @@ const players = {};
 io.on('connection', (socket) => {
     const playerCount = Object.keys(players).length;
 
+
     if (playerCount >= 2) {
         socket.emit('room-full');
             return;
@@ -24,6 +25,11 @@ io.on('connection', (socket) => {
     socket.emit('player-assigned', symbol);
     io.emit('update-players', players);
 
+    if(Object.keys(players).length === 2) {
+        io.emit('both-players-connected');
+    } else {
+        socket.emit('waiting-for-players');
+    }
 
     socket.on('move' , (data) => {
         socket.broadcast.emit('move',data);
@@ -36,8 +42,9 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         delete players[socket.id];
+        console.log('Player disconnected, emitting waiting-for-players');
+        io.emit('waiting-for-players');
         socket.broadcast.emit('player-disconnected');
-        io.emit('update-players', players);
     });  
 
 });
