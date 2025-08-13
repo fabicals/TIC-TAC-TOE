@@ -26,7 +26,9 @@ socket.on('move', ({ index, symbol }) => {
 
 document.querySelectorAll('.cell').forEach((cell, index) => {
     cell.addEventListener('click', () => {
-        if (gameOver) return;  
+        if (gameOver) {
+            gameEnd();
+        }
 
         if (board[index] === null && playerSymbol === currentTurn) {
             board[index] = playerSymbol;
