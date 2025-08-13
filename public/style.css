@@ -114,3 +114,9 @@ input:focus::placeholder {
     font-family: 'Jersey 10';
     margin-top: 10px;
 }
+
+.cell.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}

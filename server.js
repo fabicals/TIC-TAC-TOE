@@ -29,13 +29,19 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('move',data);
     });
 
+    
+    socket.on('game-over', (data) => {
+        io.emit('game-over', data);
+    });
+
     socket.on('disconnect', () => {
         delete players[socket.id];
         socket.broadcast.emit('player-disconnected');
         io.emit('update-players', players);
-    });
+    });  
 
 });
+
 
 http.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
